@@ -34,7 +34,7 @@ int main()
 
         flag=0;
 		for (i = 0; i < sample; i++){
-			if((ADCdata[i]>ADCdata[i-1])&&(ADCdata[i]>ADCdata[i+1])){
+			if((ADCdata[i]<ADCdata[i-1])&&(ADCdata[i]<ADCdata[i+1])){
 				flag =flag+1;//when maximum happened
 			}
             
@@ -42,21 +42,12 @@ int main()
 		}
     //pc.printf("%d\r\n", flag); 
 
-    	while(1){
+    while(1){
 		
         //output another sine wave to AnalogOut Pin with the f
-        /*
-        float tmp  =1/flag/40;
-        for (i = 0; i <2; i+0.05){
-            /out = 0.5*sin(i*3.14159*2);
-            wait(tmp);
-		}
-        */
+        
+ 
 
-        for (i = 0; i < sample; i++){
-            Aout =ADCdata[i];
-            wait(1./sample);
-		}
 
 		//flag is the frequency of the sinwave
 		hundred = flag/100;
@@ -116,6 +107,23 @@ int main()
 		  redLED = 1;
 		  greenLED = 0;
 		  display = 0x00;// turn off all LED;
+
+
+            float tmp  =((1/flag)/40);
+            for (float i = 0; i <2; i=i+0.05){
+                Aout = 0.5+0.5*sin(i*3.14159);
+                //Aout = Aout;
+                wait(1./flag/40);
+            }
+
 		}
+
+           /*
+        for (i = 0; i < sample; i++){
+            //Aout =ADCdata[i];
+            Aout =Ain;
+            wait(1./sample);
+		}
+        */
 	}
 }
